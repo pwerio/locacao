@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Disponibilidade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .calendar {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .month {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 10px;
+        }
+        .day {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            cursor: pointer;
+        }
+        .day:hover {
+            background-color: #f0f0f0;
+        }
+        .available {
+            background-color: #c7e1c7; /* Cor para dias disponíveis */
+        }
+        .unavailable {
+            background-color: #f8d7da; /* Cor para dias indisponíveis */
+            color: #721c24;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <div class="month">Junho 2024</div>
+        <div class="days" id="calendar-days">
+            <!-- Dias do calendário serão gerados aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Função para verificar disponibilidade de locação para um determinado dia
+        function verificarDisponibilidade(dia) {
+            // Simulação de disponibilidade - altere conforme necessário
+            const diasIndisponiveis = ['2024-06-10', '2024-06-15', '2024-06-20'];
+
+            // Verificar se o dia está na lista de dias indisponíveis
+            return !diasIndisponiveis.includes(dia);
+        }
+
+        // Função para gerar o calendário
+        function gerarCalendario() {
+            const daysContainer = document.getElementById('calendar-days');
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate(); // Total de dias no mês atual
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay(); // Índice do primeiro dia da semana (0 = Domingo, 1 = Segunda, ..., 6 = Sábado)
+            
+            // Array com os nomes dos dias da semana
+            const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            
+            // Gerar os elementos HTML para os dias do calendário
+            for (let i = 0; i < totalDays + firstDayIndex; i++) {
+                const day = i - firstDayIndex + 1;
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day');
+
+                // Se o índice for menor que o primeiro dia da semana OU maior que o total de dias no mês, adicionar um espaço em branco
+                if (i < firstDayIndex || i >= totalDays + firstDayIndex) {
+                    dayElement.textContent = '';
+                } else {
+                    dayElement.textContent = day;
+
+                    // Construir a data no formato YYYY-MM-DD
+                    const month = String(currentMonth + 1).padStart(2, '0');
+                    const formattedDay = String(day).padStart(2, '0');
+                    const date = `${currentYear}-${month}-${formattedDay}`;
+
+                    // Verificar disponibilidade e adicionar classe correspondente
+                    if (verificarDisponibilidade(date)) {
+                        dayElement.classList.add('available');
+                    } else {
+                        dayElement.classList.add('unavailable');
+                    }
+                }
+
+                daysContainer.appendChild(dayElement);
+            }
+        }
+
+        // Chamar a função para gerar o calendário ao carregar a página
+        gerarCalendario();
+    </script>
+</body>
+</html>
