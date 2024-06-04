@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Propriedade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .main-photo {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+        .main-photo:hover {
+            transform: scale(1.05);
+        }
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+        .thumbnail {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .thumbnail:hover {
+            transform: scale(1.1);
+        }
+        .details {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .details p {
+            font-size: 16px;
+            color: #555;
+        }
+        .date-picker {
+            margin-bottom: 20px;
+        }
+        .date-picker label {
+            font-weight: 500;
+            color: #555;
+        }
+        .date-picker input {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="property-title">Detalhes da Propriedade</h1>
+        <div class="photo-container">
+            <img id="main-photo" class="main-photo" src="images/propriedade1_foto1.jpg" alt="Foto Principal">
+            <div class="thumbnail-container" id="thumbnails">
+                <!-- Thumbnails serão gerados dinamicamente -->
+            </div>
+        </div>
+        <div class="details">
+            <p><strong>Capacidade:</strong> <span id="capacity"></span></p>
+            <p><strong>Localização:</strong> <span id="location"></span></p>
+            <p><strong>Detalhes:</strong> <span id="details"></span></p>
+        </div>
+        <div class="date-picker">
+            <label for="rental-date">Escolha a data para locação:</label>
+            <input type="date" id="rental-date" name="rental-date">
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Checkout (Pagamento)</button>
+    </div>
+
+    <script src="disponibilidade.js"></script>
+    <script>
+        // Obter os detalhes da propriedade com base no ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = urlParams.get('id');
+        
+        const properties = {
+            1: {
+                title: 'Propriedade 1',
+                capacity: '5 pessoas',
+                location: 'Rua Exemplo, 123, Cidade',
+                details: 'Uma bela propriedade com piscina e churrasqueira.',
+                images: [
+                    'images/propriedade1_foto1.jpg',
+                    'images/propriedade1_foto2.jpg',
+                    'images/propriedade1_foto3.jpg',
+                    'images/propriedade1_foto4.jpg',
+                    'images/propriedade1_foto5.jpg'
+                ]
+            },
+            2: {
+                title: 'Propriedade 2',
+                capacity: '8 pessoas',
+                location: 'Avenida Principal, 456, Cidade',
+                details: 'Espaçosa propriedade com vista para o mar.',
+                images: [
+                    'images/propriedade2_foto1.jpg',
+                    'images/propriedade2_foto2.jpg',
+                    'images/propriedade2_foto3.jpg',
+                    'images/propriedade2_foto4.jpg',
+                    'images/propriedade2_foto5.jpg'
+                ]
+            }
+        };
+
+        const property = properties[propertyId];
+
+        if (property) {
+            document.getElementById('property-title').textContent = property.title;
+            document.getElementById('capacity').textContent = property.capacity;
+            document.getElementById('location').textContent = property.location;
+            document.getElementById('details').textContent = property.details;
+
+            // Definir a foto principal
+            document.getElementById('main-photo').src = property.images[0];
+
+            // Gerar os thumbnails
+            const thumbnailsContainer = document.getElementById('thumbnails');
+            thumbnailsContainer.innerHTML = '';
+            property.images.forEach((image, index) => {
+                if (index > 0) { // Exclui a primeira imagem dos thumbnails
+                    const imgElement = document.createElement('img');
+                    imgElement.src = image;
+                    imgElement.alt = property.title;
+                    imgElement.className = 'thumbnail';
+                    imgElement.onclick = () => {
+                        document.getElementById('main-photo').src = image;
+                    };
+                    thumbnailsContainer.appendChild(imgElement);
+                }
+            });
+        }
+
+        function checkout() {
+            const rentalDate = document.getElementById('rental-date').value;
+            if (rentalDate) {
+                verificarDisponibilidade(propertyId, rentalDate)
+                    .then(disponivel => {
+                        if (disponivel) {
+                            alert('Data disponível! Redirecionando para pagamento...');
+                            // Redirecionar para a página de pagamento
+                            // window.location.href = 'pagina_de_pagamento.html';
+                        } else {
+                            alert('Data indisponível. Por favor, escolha outra data.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao verificar disponibilidade:', error);
+                    });
+            } else {
+                alert('Por favor, escolha uma data para locação.');
+            }
+        }
+    </script>
+</body>
+</html>
