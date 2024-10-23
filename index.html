@@ -72,10 +72,6 @@
             font-size: 16px;
             color: #666;
         }
-        .property .details {
-            margin-top: 10px;
-            text-align: left;
-        }
         .property a {
             display: inline-block;
             margin-top: 10px;
@@ -165,56 +161,70 @@
         </div>
     </header>
 
-    <!-- Conteúdo Principal -->
+    <!-- Página Principal -->
     <div class="container">
         <div class="property">
             <img src="images/propriedade1_foto1.jpg" alt="Propriedade 1">
             <h2>Imóvel para Locação</h2>
-            <div class="details">
-                <p>Bairro: Jardim Paulista</p>
-                <p>R$ 12.000,00 por mês</p>
-            </div>
+            <p>Bairro: Jardim Paulista</p>
+            <p>R$ 12.000,00 por mês</p>
             <a href="detalhes.html?id=1">Ver Detalhes</a>
         </div>
     </div>
 
-    <!-- Página de Propriedades -->
-    <div class="back-button">
-        <a href="index.html"><img src="images/arrow-left.svg" alt="Voltar"> Voltar para a Página Principal</a>
-    </div>
-
-    <!-- Carrossel de Fotos -->
-    <div class="carousel">
-        <img src="images/propriedade1_foto1.jpg" alt="Foto 1">
-        <img src="images/propriedade1_foto2.jpg" alt="Foto 2">
-        <img src="images/propriedade1_foto3.jpg" alt="Foto 3">
-    </div>
-
-    <!-- Informações da Propriedade -->
-    <div class="property-info">
-        <span>Locação</span>
-        <span>R$ 12.000,00</span>
-    </div>
-
-    <!-- Detalhes da Propriedade com Ícones -->
-    <div class="property-details">
-        <div class="icons">
-            <span>🏠 200 m²</span>
-            <span>🏢 2 Andares</span>
-            <span>🚿 3 Banheiros</span>
-            <span>🛋️ 5 Ambientes</span>
+    <!-- Página de Detalhes da Propriedade -->
+    <div id="detalhes" style="display: none;">
+        <div class="back-button">
+            <a href="index.html"><img src="images/arrow-left.svg" alt="Voltar"> Voltar para a Página Principal</a>
         </div>
-        <div class="map-container">
-            <p>Alameda Franca, 167, Jardim Paulista, São Paulo</p>
-            <!-- Google Maps Embedding -->
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.637596460435!2d-46.66168478502092!3d-23.566614884681904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59b55e36bf77%3A0x4d4b63cf67de7691!2sAlameda%20Franca%2C%20167%20-%20Jardim%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001421-000!5e0!3m2!1spt-BR!2sbr!4v1602136825133!5m2!1spt-BR!2sbr" width="100%" height="250" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+
+        <!-- Carrossel de Fotos -->
+        <div class="carousel">
+            <img src="images/propriedade1_foto1.jpg" alt="Foto 1">
+            <img src="images/propriedade1_foto2.jpg" alt="Foto 2">
+            <img src="images/propriedade1_foto3.jpg" alt="Foto 3">
         </div>
+
+        <!-- Informações da Propriedade -->
+        <div class="property-info">
+            <span>Locação</span>
+            <span>R$ 12.000,00</span>
+        </div>
+
+        <!-- Detalhes da Propriedade com Ícones -->
+        <div class="property-details">
+            <div class="icons">
+                <span>🏠 200 m²</span>
+                <span>🏢 2 Andares</span>
+                <span>🚿 3 Banheiros</span>
+                <span>🛋️ 5 Ambientes</span>
+            </div>
+            <div class="map-container">
+                <p>Alameda Franca, 167, Jardim Paulista, São Paulo</p>
+                <!-- Google Maps Embedding -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.637596460435!2d-46.66168478502092!3d-23.566614884681904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59b55e36bf77%3A0x4d4b63cf67de7691!2sAlameda%20Franca%2C%20167%20-%20Jardim%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001421-000!5e0!3m2!1spt-BR!2sbr!4v1602136825133!5m2!1spt-BR!2sbr" width="100%" height="250" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+
+        <!-- Botão de WhatsApp -->
+        <a class="whatsapp-btn" href="https://api.whatsapp.com/send?phone=5511950507175&text=Ol%C3%A1%2C%20estou%20interessado%20no%20seguinte%20im%C3%B3vel:%20Imóvel%20para%20Locação,%20Jardim%20Paulista,%20R$%2012.000,00.">
+            Fale pelo WhatsApp
+        </a>
     </div>
 
-    <!-- Botão de WhatsApp -->
-    <a class="whatsapp-btn" href="https://api.whatsapp.com/send?phone=5511950507175&text=Ol%C3%A1%2C%20estou%20interessado%20no%20seguinte%20im%C3%B3vel:%20Imóvel%20para%20Locação,%20Jardim%20Paulista,%20R$%2012.000,00.">
-        Fale pelo WhatsApp
-    </a>
+    <script>
+        // Função para exibir a página de detalhes
+        function showDetails() {
+            document.getElementById('detalhes').style.display = 'block';
+        }
+        // Captura do clique no botão Ver Detalhes
+        document.querySelectorAll('.property a').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                showDetails();
+            });
+        });
+    </script>
 
 </body>
 </html>
